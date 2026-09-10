@@ -641,4 +641,133 @@
     const pass = document.getElementById('adminSecret').value;
     // Password set to 280592
     if (pass === "280592") {
-      document.getElementById('authContainer').classList.add('hidden')
+      document.getElementById('authContainer').classList.add('hidden');
+      document.getElementById('dashboardContainer').classList.remove('hidden');
+      refreshDashboard();
+    } else {
+      alert("Invalid password.");
+    }
+  }
+
+  function applyFilter(mode) {
+    activeFilter = mode;
+    document.getElementById('fToday').classList.toggle('active', mode === 'today');
+    document.getElementById('fTomorrow').classList.toggle('active', mode === 'tomorrow');
+    document.getElementById('fAll').classList.toggle('active', mode === 'all');
+    refreshDashboard();
+  }
+
+  function refreshDashboard() {
+    const all = getBookings();
+    const todayStr = new Date().toISOString().split('T')[0];
+
+    const tmrw = new Date();
+    tmrw.setDate(new Date().getDate() + 1);
+    const tmrwStr = tmrw.toISOString().split('T')[0];
+
+    document.getElementById('todayCount').innerText = all.filter(x => x.date === todayStr).length;
+    document.getElementById('tmrwCount').innerText = all.filter(x => x.date === tmrwStr).length;
+    document.getElementById('totalCount').innerText = all.length;
+
+    let displayList = [];
+    if (activeFilter === 'today') {
+      displayList = all.filter(x => x.date === todayStr);
+    } else if (activeFilter === 'tomorrow') {
+      displayList = all.filter(x => x.date === tmrwStr);
+    } else if (activeFilter === 'custom') {
+      const custom = document.getElementById('customFilterDate').value;
+      displayList = all.filter(x => x.date === custom);
+    } else {
+      displayList = [...all];
+    }
+
+    displayList.sort((a, b) => a.date.localeCompare(b.date) || a.slotMinute - b.slotMinute);
+
+    const tbody = document.getElementById('appointmentTableBody');
+    if (displayList.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:18px; color:#94a3b8;">No scheduled appointments found.</td></tr>`;
+      return;
+    }
+
+    tbody.innerHTML = displayList.map(item => {
+      const isApproved = item.status === 'Approved';
+      return `
+        <tr>
+          <td><strong>${item.date}</strong><br><span style="color:#0f766e; font-weight:600;">${item.timeStr}</span></td>
+          <td><strong>${item.name}</strong><br><span style="color:#64748b;">${item.phone}</span></td>
+          <td><span class="badge badge-primary">${item.scan}</span><br><small style="color:#64748b;">Dr: ${item.doctor || 'Self'}</small></td>
+          <td>
+            <span class="badge ${isApproved ? 'badge-approved' : 'badge-pending'}">
+              ${isApproved ? '✓ Approved' : '⏳ Pending'}
+            </span>
+          </td>
+          <td>
+            <button onclick="approveAndSendWhatsApp(${item.id})" class="action-btn btn-approve">
+              ${isApproved ? 'Resend WA' : 'Approve & WhatsApp'}
+            </button>
+            <button onclick="cancelBooking(${item.id})" class="action-btn btn-del">Cancel</button>
+          </td>
+        </tr>
+      `;
+    }).join('');
+  }
+
+  function approveAndSendWhatsApp(id) {
+    const registry = getBookings();
+    const item = registry.find(b => b.id === id);
+    if (!item) return;
+
+    // Update status to Approved
+    item.status = 'Approved';
+    setBookings(registry);
+    refreshDashboard();
+
+    // Prepare Confirmation Message
+    const waText = encodeURIComponent(
+      `*Dr. Natasha Advanced Sonography Centre*\n` +
+      `Appointment Confirmation\n` +
+      `----------------------------------------\n` +
+      `Dear *${item.name}*,\n` +
+      `Your appointment has been approved and confirmed:\n\n` +
+      `🔬 *Investigation:* ${item.scan}\n` +
+      `📅 *Date:* ${item.date}\n` +
+      `⏰ *Time:* ${item.timeStr}\n` +
+      `👨‍⚕️ *Ref. Doctor:* ${item.doctor || 'Self'}\n\n` +
+      `📍 *Location:* Dr. Natasha Advanced Sonography Centre\n` +
+      `⚠️ *Note:* Please arrive 10 minutes prior to your scheduled time.\n` +
+      `Thank you.`
+    );
+
+    // Trigger WhatsApp Chat directly
+    window.open(`https://wa.me/91${item.phone}?text=${waText}`, '_blank');
+  }
+
+  function cancelBooking(id) {
+    if (confirm("Are you sure you want to cancel this appointment record?")) {
+      const filtered = getBookings().filter(b => b.id !== id);
+      setBookings(filtered);
+      refreshDashboard();
+      loadSlots();
+    }
+  }
+
+  function exportCSV() {
+    const list = getBookings();
+    if (list.length === 0) {
+      alert("No data available to export.");
+      return;
+    }
+    let csv = "Patient Name,Contact,Date,Time,Investigation,Doctor,Status\n";
+    list.forEach(i => {
+      csv += `"${i.name}","${i.phone}","${i.date}","${i.timeStr}","${i.scan}","${i.doctor}","${i.status || 'Pending'}"\n`;
+    });
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `Appointments_Report_${new Date().toISOString().slice(0,10)}.csv`;
+    a.click();
+  }
+</script>
+</body>
+</html>
