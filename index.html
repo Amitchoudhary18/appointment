@@ -631,11 +631,6 @@
     activeFilter = mode;
     document.getElementById('fToday').classList.toggle('active', mode === 'today');
     document.getElementById('fTomorrow').classList.toggle('active', mode === 'tomorrow');
-    document.
-function applyFilter(mode) {
-    activeFilter = mode;
-    document.getElementById('fToday').classList.toggle('active', mode === 'today');
-    document.getElementById('fTomorrow').classList.toggle('active', mode === 'tomorrow');
     document.getElementById('fAll').classList.toggle('active', mode === 'all');
     refreshDashboard();
   }
@@ -729,8 +724,9 @@ function applyFilter(mode) {
       refreshDashboard();
       loadSlots();
     }
-    }
-    function exportCSV() {
+  }
+
+  function exportCSV() {
     const list = getBookings();
     if (list.length === 0) {
       alert("No data available to export.");
