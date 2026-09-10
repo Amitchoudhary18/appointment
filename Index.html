@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dr. Natasha Advanced Sonography Centre | Appointment Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --primary: #0f766e;
+      --primary-hover: #115e59;
+      --navy: #0b192c;
+      --slate-bg: #f8fafc;
+      --border: #e2e8f0;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+    }
+
+    * { box-sizing: border-box; font-family: 'Inter', sans-serif; margin: 0; padding: 0; }
+    
+    body {
+      background: #0f172a;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 24px 12px;
+      color: var(--text-main);
+    }
+
+    .app-card {
+      width: 100%;
+      max-width: 800px;
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+      overflow: hidden;
+      border: 1px solid #334155;
+    }
+
+    /* Executive Header */
+    .header {
+      background: #0b192c;
+      padding: 22px 24px;
+      border-bottom: 3px solid var(--primary);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .header-info h1 {
+      font-size: 18px;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: -0.3px;
+    }
+    .header-info p {
+      font-size: 12px;
+      color: #94a3b8;
+      margin-top: 2px;
+    }
+    .header-badge {
+      background: rgba(15, 118, 110, 0.2);
+      border: 1px solid rgba(20, 184, 166, 0.4);
+      color: #2dd4bf;
+      padding: 5px 12px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Navigation Tabs */
+    .nav-bar {
+      display: flex;
+      background: #f1f5f9;
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-item {
+      flex: 1;
+      padding: 13px;
+      text-align: center;
+      border: none;
+      background: transparent;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .nav-item.active {
+      background: #ffffff;
+      color: var(--primary);
+      border-bottom: 2px solid var(--primary);
+    }
+
+    .main-body {
+      padding: 24px;
+    }
+    .hidden { display: none !important; }
+
+    /* Form Layout */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 14px;
+    }
+    @media (max-width: 600px) {
+      .form-grid { grid-template-columns: 1fr; gap: 12px; }
+      .main-body { padding: 16px; }
+    }
+
+    .form-label {
+      display: block;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: #475569;
+      margin-bottom: 5px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+    .form-input {
+      width: 100%;
+      padding: 11px 12px;
+      border: 1.5px solid var(--border);
+      border-radius: 6px;
+      font-size: 13.5px;
+      color: var(--text-main);
+      background: #ffffff;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .form-input:focus {
+      border-color: var(--primary);
+    }
+
+    /* Slots Grid */
+    .slot-label-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 8px;
+      margin-bottom: 8px;
+    }
+    .slot-legend {
+      display: flex;
+      gap: 12px;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+    .legend-item { display: flex; align-items: center; gap: 5px; }
+    .dot { width: 8px; height: 8px; border-radius: 50%; }
+    .dot-free { background: var(--primary); }
+    .dot-busy { background: #cbd5e1; }
+
+    .slot-grid-box {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px;
+      background: var(--slate-bg);
+      max-height: 180px;
+      overflow-y: auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(105px, 1fr));
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    .slot-btn {
+      padding: 9px 4px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      background: #ffffff;
+      color: #1e293b;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.15s;
+    }
+    .slot-btn:hover:not(.booked) {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+    .slot-btn.selected {
+      background: var(--primary) !important;
+      color: #ffffff !important;
+      border-color: var(--primary) !important;
+    }
+    .slot-btn.booked {
+      background: #f1f5f9;
+      border-color: #e2e8f0;
+      color: #94a3b8;
+      cursor: not-allowed;
+      text-decoration: line-through;
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 13px;
+      border: none;
+      border-radius: 6px;
+      background: var(--primary);
+      color: #ffffff;
+      font-size: 13.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-submit:hover:not(:disabled) {
+      background: var(--primary-hover);
+    }
+    .btn-submit:disabled {
+      background: #cbd5e1;
+      cursor: not-allowed;
+    }
+
+    /* Message / Alert */
+    .status-msg {
+      padding: 11px 14px;
+      border-radius: 6px;
+      font-size: 12.5px;
+      font-weight: 500;
+      margin-bottom: 14px;
+      display: none;
+    }
+    .status-msg.err { background: #fef2f2; color: #991b1b; border: 1px solid #f87171; }
+    .status-msg.ok { background: #ecfdf5; color: #065f46; border: 1px solid #34d399; }
+
+    /* Admin Panel */
+    .admin-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .stat-box {
+      background: var(--slate-bg);
+      border: 1px solid var(--border);
+      padding: 12px;
+      border-radius: 8px;
+      text-align: center;
+    }
+    .stat-box span { font-size: 11px; text-transform: uppercase; color: var(--text-muted); font-weight: 600; }
+    .stat-box div { font-size: 18px; font-weight: 700; color: var(--navy); margin-top: 2px; }
+
+    .admin-actions {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+    .filter-btn-group { display: flex; gap: 4px; }
+    .filter-btn {
+      padding: 7px 12px;
+      border-radius: 5px;
+      border: 1px solid var(--border);
+      background: #ffffff;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      color: #475569;
+    }
+    .filter-btn.active {
+      background: var(--navy);
+      color: #ffffff;
+      border-color: var(--navy);
+    }
+
+    .table-box {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow-x: auto;
+    }
+    table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    th { background: var(--slate-bg); padding: 10px 12px; font-weight: 600; color: #334155; text-align: left; border-bottom: 1px solid var(--border); }
+    td { padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+    tr:last-child td { border-bottom: none; }
+    
+    .badge {
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-weight: 600;
+      font-size: 11px;
+      display: inline-block;
+      background: #e2e8f0;
+      color: #334155;
+    }
+    .badge-primary { background: #ccfbf1; color: #0f766e; }
+
+    .action-btn {
+      padding: 5px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn-wa { background: #22c55e; color: #ffffff; }
+    .btn-del { background: #fee2e2; color: #dc2626; margin-left: 3px; }
+  </style>
+</head>
+<body>
+
+<div class="app-card">
+  <div class="header">
+    <div class="header-info">
+      <h1>Dr. Natasha Advanced Sonography Centre</h1>
+      <p>Department of Fetal Medicine & Clinical Ultrasound</p>
+    </div>
+    <div class="header-badge">Online Scheduling</div>
+  </div>
+
+  <div class="nav-bar">
+    <button class="nav-item active" id="tabBook" onclick="switchView('booking')">Book Appointment</button>
+    <button class="nav-item" id="tabAdmin" onclick="switchView('admin')">Admin Management</button>
+  </div>
+
+  <!-- Booking View -->
+  <div id="bookingView" class="main-body">
+    <div id="statusAlert" class="status-msg"></div>
+
+    <form id="scheduleForm" onsubmit="event.preventDefault(); processBooking();">
+      <div class="form-grid">
+        <div>
+          <label class="form-label">Patient Name *</label>
+          <input type="text" id="patientName" class="form-input" placeholder="e.g. Pooja Sharma" required />
+        </div>
+        <div>
+          <label class="form-label">Contact Number *</label>
+          <input type="tel" id="contactNumber" class="form-input" placeholder="10-digit mobile number" maxlength="10" required />
+        </div>
+      </div>
+
+      <div class="form-grid">
+        <div>
+          <label class="form-label">Referring Doctor</label>
+          <input type="text" id="referringDoctor" class="form-input" placeholder="Doctor's Name / Self" required />
+        </div>
+        <div>
+          <label class="form-label">Investigation Required *</label>
+          <select id="investigationType" class="form-input" onchange="loadSlots()">
+            <option value="Early Pregnancy Scan">Early Pregnancy Scan</option>
+            <option value="NT Scan">NT Scan</option>
+            <option value="Anomaly Scan">Anomaly Scan</option>
+            <option value="Fetal Well Being">Fetal Well Being</option>
+            <option value="Growth Doppler Scan">Growth Doppler Scan</option>
+            <option value="Fetal Echo">Fetal Echo</option>
+            <option value="Consultation">Consultation</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-grid">
+        <div>
+          <label class="form-label">Appointment Date *</label>
+          <input type="date" id="appointmentDate" class="form-input" onchange="loadSlots()" required />
+        </div>
+        <div>
+          <label class="form-label">Selected Slot</label>
+          <input type="text" id="selectedSlotField" class="form-input" placeholder="Select available time below" readonly style="background: #f8fafc; font-weight: 600; color: var(--primary);" />
+        </div>
+      </div>
+
+      <div class="slot-label-bar">
+        <label class="form-label" style="margin-bottom: 0;">Available Time Slots (09:00 AM – 07:00 PM)</label>
+        <div class="slot-legend">
+          <div class="legend-item"><div class="dot dot-free"></div> Available</div>
+          <div class="legend-item"><div class="dot dot-busy"></div> Booked</div>
+        </div>
+      </div>
+
+      <div id="slotsContainer" class="slot-grid-box"></div>
+
+      <button type="submit" id="confirmBookingBtn" class="btn-submit" disabled>Confirm Appointment</button>
+    </form>
+  </div>
+
+  <!-- Admin View -->
+  <div id="adminView" class="main-body hidden">
+    <div id="authContainer" style="max-width: 280px; margin: 40px auto; text-align: center;">
+      <label class="form-label" style="margin-bottom: 8px;">Enter Admin Password</label>
+      <input type="password" id="adminSecret" class="form-input" placeholder="Default: admin" style="margin-bottom: 10px;" />
+      <button class="btn-submit" onclick="authenticateAdmin()">Sign In</button>
+    </div>
+
+    <div id="dashboardContainer" class="hidden">
+      <div class="admin-stats">
+        <div class="stat-box">
+          <span>Today</span>
+          <div id="todayCount">0</div>
+        </div>
+        <div class="stat-box">
+          <span>Tomorrow</span>
+          <div id="tmrwCount">0</div>
+        </div>
+        <div class="stat-box">
+          <span>Total Records</span>
+          <div id="totalCount">0</div>
+        </div>
+      </div>
+
+      <div class="admin-actions">
+        <div class="filter-btn-group">
+          <button class="filter-btn active" id="fToday" onclick="applyFilter('today')">Today</button>
+          <button class="filter-btn" id="fTomorrow" onclick="applyFilter('tomorrow')">Tomorrow</button>
+          <button class="filter-btn" id="fAll" onclick="applyFilter('all')">All</button>
+        </div>
+        <div style="display: flex; gap: 6px; align-items: center;">
+          <input type="date" id="customFilterDate" class="form-input" style="padding: 6px 8px; font-size: 12px;" onchange="applyFilter('custom')" />
+          <button onclick="exportCSV()" class="filter-btn" style="background: #0f766e; color: #fff; border: none;">Export CSV</button>
+        </div>
+      </div>
+
+      <div class="table-box">
+        <table>
+          <thead>
+            <tr>
+              <th>Schedule</th>
+              <th>Patient Details</th>
+              <th>Investigation</th>
+              <th>Doctor</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="appointmentTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const WORK_START = 9 * 60; // 09:00 AM (540 min)
+  const WORK_END = 19 * 60;  // 07:00 PM (1140 min)
+  const BASE_INTERVAL = 30;
+
+  let activeSlotMinute = null;
+  let activeFilter = 'today';
+
+  window.addEventListener('DOMContentLoaded', () => {
+    const today = new Date().toISOString().split('T')[0];
+    const dateInput = document.getElementById('appointmentDate');
+    dateInput.min = today;
+    dateInput.value = today;
+    document.getElementById('customFilterDate').value = today;
+    loadSlots();
+  });
+
+  function switchView(view) {
+    if (view === 'booking') {
+      document.getElementById('bookingView').classList.remove('hidden');
+      document.getElementById('adminView').classList.add('hidden');
+      document.getElementById('tabBook').classList.add('active');
+      document.getElementById('tabAdmin').classList.remove('active');
+      loadSlots();
+    } else {
+      document.getElementById('bookingView').classList.add('hidden');
+      document.getElementById('adminView').classList.remove('hidden');
+      document.getElementById('tabBook').classList.remove('active');
+      document.getElementById('tabAdmin').classList.add('active');
+    }
+  }
+
+  function formatTime(min) {
+    let h = Math.floor(min / 60);
+    let m = min % 60;
+    let ampm = h >= 12 ? 'PM' : 'AM';
+    h = h % 12 || 12;
+    return `${h}:${m === 0 ? '00' : m} ${ampm}`;
+  }
+
+  function getBookings() {
+    return JSON.parse(localStorage.getItem('natasha_appointment_registry') || '[]');
+  }
+
+  function setBookings(data) {
+    localStorage.setItem('natasha_appointment_registry', JSON.stringify(data));
+  }
+
+  function loadSlots() {
+    activeSlotMinute = null;
+    document.getElementById('selectedSlotField').value = '';
+    document.getElementById('confirmBookingBtn').disabled = true;
+
+    const date = document.getElementById('appointmentDate').value;
+    const inv = document.getElementById('investigationType').value;
+    const duration = (inv === "Anomaly Scan") ? 60 : 30;
+
+    const container = document.getElementById('slotsContainer');
+    container.innerHTML = '';
+    if (!date) return;
+
+    const currentBookings = getBookings().filter(b => b.date === date);
+
+    for (let m = WORK_START; m < WORK_END; m += BASE_INTERVAL) {
+      if (m + duration > WORK_END) continue;
+
+      let isBlocked = false;
+      for (let b of currentBookings) {
+        let bStart = b.slotMinute;
+        let bEnd = b.slotMinute + b.duration;
+        if (m < bEnd && (m + duration) > bStart) {
+          isBlocked = true;
+          break;
+        }
+      }
+
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = `slot-btn ${isBlocked ? 'booked' : ''}`;
+      btn.innerText = formatTime(m);
+
+      if (!isBlocked) {
+        btn.onclick = () => {
+          document.querySelectorAll('.slot-btn').forEach(b => b.classList.remove('selected'));
+          btn.classList.add('selected');
+          activeSlotMinute = m;
+          document.getElementById('selectedSlotField').value = `${formatTime(m)} – ${formatTime(m + duration)}`;
+          document.getElementById('confirmBookingBtn').disabled = false;
+        };
+      }
+      container.appendChild(btn);
+    }
+  }
+
+  function showMessage(text, isSuccess) {
+    const alert = document.getElementById('statusAlert');
+    alert.style.display = 'block';
+    alert.className = `status-msg ${isSuccess ? 'ok' : 'err'}`;
+    alert.innerText = text;
+    setTimeout(() => { alert.style.display = 'none'; }, 4500);
+  }
+
+  function processBooking() {
+    const name = document.getElementById('patientName').value.trim();
+    const phone = document.getElementById('contactNumber').value.trim();
+    const doctor = document.getElementById('referringDoctor').value.trim();
+    const scan = document.getElementById('investigationType').value;
+    const date = document.getElementById('appointmentDate').value;
+    const duration = (scan === "Anomaly Scan") ? 60 : 30;
+
+    if (!activeSlotMinute) {
+      showMessage("Please select an available appointment slot.", false);
+      return;
+    }
+    if (phone.length < 10) {
+      showMessage("Please provide a valid 10-digit mobile number.", false);
+      return;
+    }
+
+    const registry = getBookings();
+    const collision = registry.find(b => b.date === date && (activeSlotMinute < (b.slotMinute + b.duration) && (activeSlotMinute + duration) > b.slotMinute));
+    if (collision) {
+      showMessage("The selected slot was just reserved. Please select another time.", false);
+      loadSlots();
+      return;
+    }
+
+    const entry = {
+      id: Date.now(),
+      name,
+      phone,
+      doctor,
+      scan,
+      date,
+      slotMinute: activeSlotMinute,
+      timeStr: formatTime(activeSlotMinute),
+      duration
+    };
+
+    registry.push(entry);
+    setBookings(registry);
+
+    showMessage(`Appointment confirmed for ${name} on ${date} at ${formatTime(activeSlotMinute)}.`, true);
+
+    // Direct WhatsApp Dispatch
+    const waMessage = encodeURIComponent(
+      `*Dr. Natasha Advanced Sonography Centre*\n` +
+      `Appointment Confirmation\n\n` +
+      `Patient Name: ${name}\n` +
+      `Investigation: ${scan}\n` +
+      `Date: ${date}\n` +
+      `Time: ${formatTime(activeSlotMinute)}\n` +
+      `Doctor: ${doctor || 'Self'}\n\n` +
+      `Please report 10 minutes prior to your scheduled slot.`
+    );
+    window.open(`https://wa.me/91${phone}?text=${waMessage}`, '_blank');
+
+    // Reset Form
+    document.getElementById('patientName').value = '';
+    document.getElementById('contactNumber').value = '';
+    document.getElementById('referringDoctor').value = '';
+    document.getElementById('selectedSlotField').value = '';
+    document.getElementById('confirmBookingBtn').disabled = true;
+    activeSlotMinute = null;
+    loadSlots();
+  }
+
+  function authenticateAdmin() {
+    const pass = document.getElementById('adminSecret').value;
+    if (pass === "admin") {
+      document.getElementById('authContainer').classList.add('hidden');
+      document.getElementById('dashboardContainer').classList.remove('hidden');
+      refreshDashboard();
+    } else {
+      alert("Invalid administrative password.");
+    }
+  }
+
+  function applyFilter(mode) {
+    activeFilter = mode;
+    document.getElementById('fToday').classList.toggle('active', mode === 'today');
+    document.getElementById('fTomorrow').classList.toggle('active', mode === 'tomorrow');
+    document.getElementById('fAll').classList.toggle('active', mode === 'all');
+    refreshDashboard();
+  }
+
+  function refreshDashboard() {
+    const all = getBookings();
+    const todayStr = new Date().toISOString().split('T')[0];
+
+    const tmrw = new Date();
+    tmrw.setDate(new Date().getDate() + 1);
+    const tmrwStr = tmrw.toISOString().split('T')[0];
+
+    document.getElementById('todayCount').innerText = all.filter(x => x.date === todayStr).length;
+    document.getElementById('tmrwCount').innerText = all.filter(x => x.date === tmrwStr).length;
+    document.getElementById('totalCount').innerText = all.length;
+
+    let displayList = [];
+    if (activeFilter === 'today') {
+      displayList = all.filter(x => x.date === todayStr);
+    } else if (activeFilter === 'tomorrow') {
+      displayList = all.filter(x => x.date === tmrwStr);
+    } else if (activeFilter === 'custom') {
+      const custom = document.getElementById('customFilterDate').value;
+      displayList = all.filter(x => x.date === custom);
+    } else {
+      displayList = [...all];
+    }
+
+    displayList.sort((a, b) => a.date.localeCompare(b.date) || a.slotMinute - b.slotMinute);
+
+    const tbody = document.getElementById('appointmentTableBody');
+    if (displayList.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:18px; color:#94a3b8;">No scheduled appointments found.</td></tr>`;
+      return;
+    }
+
+    tbody.innerHTML = displayList.map(item => {
+      const waLink = `https://wa.me/91${item.phone}?text=` + encodeURIComponent(`Hello ${item.name}, this is a reminder regarding your appointment for ${item.scan} on ${item.date} at ${item.timeStr} at Dr. Natasha Advanced Sonography Centre.`);
+      return `
+        <tr>
+          <td><strong>${item.date}</strong><br><span style="color:#0f766e; font-weight:600;">${item.timeStr}</span></td>
+          <td><strong>${item.name}</strong><br><span style="color:#64748b;">${item.phone}</span></td>
+          <td><span class="badge badge-primary">${item.scan}</span></td>
+          <td>${item.doctor || 'Self'}</td>
+          <td>
+            <a href="${waLink}" target="_blank" class="action-btn btn-wa">WhatsApp</a>
+            <button onclick="cancelBooking(${item.id})" class="action-btn btn-del">Cancel</button>
+          </td>
+        </tr>
+      `;
+    }).join('');
+  }
+
+  function cancelBooking(id) {
+    if (confirm("Are you sure you want to cancel this appointment record?")) {
+      const filtered = getBookings().filter(b => b.id !== id);
+      setBookings(filtered);
+      refreshDashboard();
+      loadSlots();
+    }
+  }
+
+  function exportCSV() {
+    const list = getBookings();
+    if (list.length === 0) {
+      alert("No data available to export.");
+      return;
+    }
+    let csv = "Patient Name,Contact,Date,Time,Duration (min),Investigation,Doctor\n";
+    list.forEach(i => {
+      csv += `"${i.name}","${i.phone}","${i.date}","${i.timeStr}","${i.duration}","${i.scan}","${i.doctor}"\n`;
+    });
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `Appointments_Export_${new Date().toISOString().slice(0,10)}.csv`;
+    a.click();
+  }
+</script>
+</body>
+</html>
