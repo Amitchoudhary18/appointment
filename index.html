@@ -699,6 +699,7 @@
     setBookings(registry);
     refreshDashboard();
 
+        // Prepare Confirmation Message
     const waText = encodeURIComponent(
       `*Dr. Natasha Advanced Sonography Centre*\n` +
       `Appointment Confirmation\n` +
@@ -709,10 +710,11 @@
       `📅 *Date:* ${item.date}\n` +
       `⏰ *Time:* ${item.timeStr}\n` +
       `👨‍⚕️ *Ref. Doctor:* ${item.doctor || 'Self'}\n\n` +
-      `📍 *Location:* Dr. Natasha Advanced Sonography Centre\n` +
+      `📍 *Google Map Location:*\nhttps://maps.app.goo.gl/xD7kt1YY2BHsbGS99\n\n` +
       `⚠️ *Note:* Please arrive 10 minutes prior to your scheduled time.\n` +
       `Thank you.`
     );
+
 
     window.open(`https://wa.me/91${item.phone}?text=${waText}`, '_blank');
   }
