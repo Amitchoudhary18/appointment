@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dr. Natasha Advanced Sonography Centre | Appointment Portal</title>
+  <title>Dr. Natasha Advanced Sonography Centre</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -26,8 +26,8 @@
       min-height: 100vh;
       display: flex;
       justify-content: center;
-      align-items: center;
-      padding: 24px 12px;
+      align-items: flex-start;
+      padding: 20px 10px;
       color: var(--text-main);
     }
 
@@ -36,27 +36,26 @@
       max-width: 820px;
       background: #ffffff;
       border-radius: 12px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
       overflow: hidden;
-      border: 1px solid #334155;
+      margin-top: 10px;
     }
 
     .header {
       background: #0b192c;
-      padding: 22px 24px;
+      padding: 20px 22px;
       border-bottom: 3px solid var(--primary);
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
     .header-info h1 {
-      font-size: 18px;
+      font-size: 17px;
       font-weight: 700;
       color: #ffffff;
-      letter-spacing: -0.3px;
     }
     .header-info p {
-      font-size: 12px;
+      font-size: 11.5px;
       color: #94a3b8;
       margin-top: 2px;
     }
@@ -64,14 +63,14 @@
       background: rgba(15, 118, 110, 0.2);
       border: 1px solid rgba(20, 184, 166, 0.4);
       color: #2dd4bf;
-      padding: 5px 12px;
+      padding: 4px 10px;
       border-radius: 6px;
       font-size: 11px;
       font-weight: 600;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
     }
 
+    /* Tabs */
     .nav-bar {
       display: flex;
       background: #f1f5f9;
@@ -79,7 +78,7 @@
     }
     .nav-item {
       flex: 1;
-      padding: 13px;
+      padding: 14px 10px;
       text-align: center;
       border: none;
       background: transparent;
@@ -87,21 +86,20 @@
       font-weight: 600;
       color: var(--text-muted);
       cursor: pointer;
-      transition: all 0.2s;
     }
     .nav-item.active {
       background: #ffffff;
       color: var(--primary);
-      border-bottom: 2px solid var(--primary);
+      border-bottom: 3px solid var(--primary);
     }
 
-    .main-body { padding: 24px; }
-    .hidden { display: none !important; }
+    .main-body { padding: 22px; }
 
+    /* Form */
     .form-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 16px;
+      gap: 14px;
       margin-bottom: 14px;
     }
     @media (max-width: 600px) {
@@ -116,7 +114,6 @@
       color: #475569;
       margin-bottom: 5px;
       text-transform: uppercase;
-      letter-spacing: 0.3px;
     }
     .form-input {
       width: 100%;
@@ -127,15 +124,15 @@
       color: var(--text-main);
       background: #ffffff;
       outline: none;
-      transition: border-color 0.2s;
     }
     .form-input:focus { border-color: var(--primary); }
 
+    /* Slots */
     .slot-label-bar {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-top: 8px;
+      margin-top: 10px;
       margin-bottom: 8px;
     }
     .slot-legend {
@@ -154,7 +151,7 @@
       border-radius: 8px;
       padding: 10px;
       background: var(--slate-bg);
-      max-height: 180px;
+      max-height: 190px;
       overflow-y: auto;
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(105px, 1fr));
@@ -162,7 +159,7 @@
       margin-bottom: 20px;
     }
     .slot-btn {
-      padding: 9px 4px;
+      padding: 10px 4px;
       border: 1px solid #cbd5e1;
       border-radius: 6px;
       background: #ffffff;
@@ -171,7 +168,6 @@
       font-weight: 600;
       cursor: pointer;
       text-align: center;
-      transition: all 0.15s;
     }
     .slot-btn:hover:not(.booked) {
       border-color: var(--primary);
@@ -197,72 +193,14 @@
       border-radius: 6px;
       background: var(--primary);
       color: #ffffff;
-      font-size: 13.5px;
+      font-size: 14px;
       font-weight: 600;
       cursor: pointer;
-      transition: background 0.2s;
     }
     .btn-submit:hover:not(:disabled) { background: var(--primary-hover); }
     .btn-submit:disabled { background: #cbd5e1; cursor: not-allowed; }
 
-    /* Modal Popup */
-    .modal-overlay {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(15, 23, 42, 0.7);
-      backdrop-filter: blur(4px);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-      padding: 20px;
-    }
-    .modal-box {
-      background: #ffffff;
-      border-radius: 12px;
-      padding: 26px 20px;
-      max-width: 440px;
-      width: 100%;
-      text-align: center;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-      animation: popIn 0.25s ease-out;
-    }
-    .modal-icon {
-      width: 54px;
-      height: 54px;
-      background: #ccfbf1;
-      color: var(--primary);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 24px;
-      margin: 0 auto 14px auto;
-      font-weight: bold;
-    }
-    .modal-box h3 {
-      font-size: 17px;
-      color: #0f172a;
-      margin-bottom: 10px;
-    }
-    .modal-box p {
-      font-size: 14px;
-      color: #475569;
-      line-height: 1.5;
-      margin-bottom: 22px;
-    }
-    .btn-modal-close {
-      background: var(--primary);
-      color: #ffffff;
-      border: none;
-      padding: 10px 28px;
-      border-radius: 6px;
-      font-size: 13.5px;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
-    /* Admin View */
+    /* Admin Panel */
     .admin-stats {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -314,13 +252,7 @@
     td { padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
     tr:last-child td { border-bottom: none; }
     
-    .badge {
-      padding: 3px 8px;
-      border-radius: 4px;
-      font-weight: 600;
-      font-size: 11px;
-      display: inline-block;
-    }
+    .badge { padding: 3px 7px; border-radius: 4px; font-weight: 600; font-size: 11px; display: inline-block; }
     .badge-primary { background: #ccfbf1; color: #0f766e; }
     .badge-pending { background: #fef3c7; color: #92400e; }
     .badge-approved { background: #dcfce7; color: #166534; }
@@ -332,17 +264,45 @@
       font-weight: 600;
       border: none;
       cursor: pointer;
-      text-decoration: none;
       display: inline-flex;
       align-items: center;
-      gap: 3px;
+      text-decoration: none;
     }
     .btn-approve { background: #16a34a; color: #ffffff; }
     .btn-del { background: #fee2e2; color: #dc2626; margin-left: 3px; }
 
-    @keyframes popIn {
-      from { transform: scale(0.9); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
+    /* Modal Popup */
+    #patientModal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(15, 23, 42, 0.75);
+      z-index: 9999;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    .modal-box {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 26px 20px;
+      max-width: 420px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    }
+    .modal-icon {
+      width: 52px;
+      height: 52px;
+      background: #ccfbf1;
+      color: var(--primary);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      margin: 0 auto 12px auto;
+      font-weight: bold;
     }
   </style>
 </head>
@@ -358,8 +318,8 @@
   </div>
 
   <div class="nav-bar">
-    <button class="nav-item active" id="tabBook" onclick="switchView('booking')">Patient Appointment Booking</button>
-    <button class="nav-item" id="tabAdmin" onclick="switchView('admin')">Admin Approval Portal</button>
+    <button class="nav-item active" id="tabBook" onclick="showBookingView()">Patient Appointment Booking</button>
+    <button class="nav-item" id="tabAdmin" onclick="showAdminView()">Admin Approval Portal</button>
   </div>
 
   <!-- 1. PATIENT / STAFF BOOKING VIEW -->
@@ -421,16 +381,16 @@
   </div>
 
   <!-- 2. ADMIN VIEW -->
-  <div id="adminView" class="main-body hidden">
-    <!-- Admin Auth -->
-    <div id="authContainer" style="max-width: 280px; margin: 40px auto; text-align: center;">
+  <div id="adminView" class="main-body" style="display: none;">
+    <!-- Password Auth -->
+    <div id="authContainer" style="max-width: 300px; margin: 30px auto; text-align: center;">
       <label class="form-label" style="margin-bottom: 8px;">Enter Admin Password</label>
-      <input type="password" id="adminSecret" class="form-input" placeholder="Password" style="margin-bottom: 10px;" />
-      <button class="btn-submit" onclick="authenticateAdmin()">Sign In</button>
+      <input type="password" id="adminSecret" class="form-input" placeholder="Enter Password" style="margin-bottom: 12px; text-align: center;" />
+      <button class="btn-submit" type="button" onclick="authenticateAdmin()">Sign In</button>
     </div>
 
-    <!-- Admin Dashboard -->
-    <div id="dashboardContainer" class="hidden">
+    <!-- Main Dashboard -->
+    <div id="dashboardContainer" style="display: none;">
       <div class="admin-stats">
         <div class="stat-box">
           <span>Today</span>
@@ -476,46 +436,57 @@
   </div>
 </div>
 
-<!-- PATIENT CONFIRMATION POPUP MODAL -->
-<div id="patientModal" class="modal-overlay hidden">
+<!-- PATIENT POPUP MODAL -->
+<div id="patientModal">
   <div class="modal-box">
     <div class="modal-icon">✓</div>
-    <h3>Appointment Submitted</h3>
-    <p>You will receive your appointment confirmation on WhatsApp soon.</p>
-    <button class="btn-modal-close" onclick="closeModal()">Close</button>
+    <h3 style="font-size: 17px; margin-bottom: 8px;">Appointment Submitted</h3>
+    <p style="font-size: 13.5px; color: #475569; line-height: 1.5; margin-bottom: 20px;">
+      You will receive your appointment confirmation on WhatsApp soon.
+    </p>
+    <button class="btn-submit" style="width: auto; padding: 10px 28px;" onclick="closeModal()">Close</button>
   </div>
 </div>
 
 <script>
-  const WORK_START = 9 * 60; // 09:00 AM
-  const WORK_END = 19 * 60;  // 07:00 PM
+  const WORK_START = 9 * 60; // 9:00 AM (540 min)
+  const WORK_END = 19 * 60;  // 7:00 PM (1140 min)
   const BASE_INTERVAL = 30;
 
   let activeSlotMinute = null;
   let activeFilter = 'today';
 
-  window.addEventListener('DOMContentLoaded', () => {
+  // Run on startup
+  function init() {
     const today = new Date().toISOString().split('T')[0];
     const dateInput = document.getElementById('appointmentDate');
-    dateInput.min = today;
-    dateInput.value = today;
-    document.getElementById('customFilterDate').value = today;
-    loadSlots();
-  });
-
-  function switchView(view) {
-    if (view === 'booking') {
-      document.getElementById('bookingView').classList.remove('hidden');
-      document.getElementById('adminView').classList.add('hidden');
-      document.getElementById('tabBook').classList.add('active');
-      document.getElementById('tabAdmin').classList.remove('active');
-      loadSlots();
-    } else {
-      document.getElementById('bookingView').classList.add('hidden');
-      document.getElementById('adminView').classList.remove('hidden');
-      document.getElementById('tabBook').classList.remove('active');
-      document.getElementById('tabAdmin').classList.add('active');
+    const adminDateInput = document.getElementById('customFilterDate');
+    
+    if (dateInput) {
+      dateInput.min = today;
+      dateInput.value = today;
     }
+    if (adminDateInput) {
+      adminDateInput.value = today;
+    }
+    loadSlots();
+  }
+
+  window.onload = init;
+
+  function showBookingView() {
+    document.getElementById('bookingView').style.display = 'block';
+    document.getElementById('adminView').style.display = 'none';
+    document.getElementById('tabBook').classList.add('active');
+    document.getElementById('tabAdmin').classList.remove('active');
+    loadSlots();
+  }
+
+  function showAdminView() {
+    document.getElementById('bookingView').style.display = 'none';
+    document.getElementById('adminView').style.display = 'block';
+    document.getElementById('tabBook').classList.remove('active');
+    document.getElementById('tabAdmin').classList.add('active');
   }
 
   function formatTime(min) {
@@ -527,7 +498,11 @@
   }
 
   function getBookings() {
-    return JSON.parse(localStorage.getItem('natasha_appointment_registry') || '[]');
+    try {
+      return JSON.parse(localStorage.getItem('natasha_appointment_registry') || '[]');
+    } catch (e) {
+      return [];
+    }
   }
 
   function setBookings(data) {
@@ -536,18 +511,21 @@
 
   function loadSlots() {
     activeSlotMinute = null;
-    document.getElementById('selectedSlotField').value = '';
-    document.getElementById('confirmBookingBtn').disabled = true;
+    const selectedField = document.getElementById('selectedSlotField');
+    const confirmBtn = document.getElementById('confirmBookingBtn');
+    if (selectedField) selectedField.value = '';
+    if (confirmBtn) confirmBtn.disabled = true;
 
-    const date = document.getElementById('appointmentDate').value;
+    const dateVal = document.getElementById('appointmentDate').value;
     const inv = document.getElementById('investigationType').value;
     const duration = (inv === "Anomaly Scan") ? 60 : 30;
 
     const container = document.getElementById('slotsContainer');
+    if (!container) return;
     container.innerHTML = '';
-    if (!date) return;
+    if (!dateVal) return;
 
-    const currentBookings = getBookings().filter(b => b.date === date);
+    const currentBookings = getBookings().filter(b => b.date === dateVal);
 
     for (let m = WORK_START; m < WORK_END; m += BASE_INTERVAL) {
       if (m + duration > WORK_END) continue;
@@ -568,7 +546,7 @@
       btn.innerText = formatTime(m);
 
       if (!isBlocked) {
-        btn.onclick = () => {
+        btn.onclick = function() {
           document.querySelectorAll('.slot-btn').forEach(b => b.classList.remove('selected'));
           btn.classList.add('selected');
           activeSlotMinute = m;
@@ -588,7 +566,7 @@
     const date = document.getElementById('appointmentDate').value;
     const duration = (scan === "Anomaly Scan") ? 60 : 30;
 
-    if (!activeSlotMinute) {
+    if (!activeSlotMinute && activeSlotMinute !== 0) {
       alert("Please select an available appointment slot.");
       return;
     }
@@ -622,9 +600,9 @@
     setBookings(registry);
 
     // Show popup
-    document.getElementById('patientModal').classList.remove('hidden');
+    document.getElementById('patientModal').style.display = 'flex';
 
-    // Reset fields
+    // Reset Form
     document.getElementById('patientName').value = '';
     document.getElementById('contactNumber').value = '';
     document.getElementById('referringDoctor').value = '';
@@ -635,11 +613,140 @@
   }
 
   function closeModal() {
-    document.getElementById('patientModal').classList.add('hidden');
+    document.getElementById('patientModal').style.display = 'none';
   }
 
   function authenticateAdmin() {
-    const pass = document.getElementById('adminSecret').value;
+    const pass = document.getElementById('adminSecret').value.trim();
     if (pass === "280592") {
-      document.getElementById('authContainer').classList.add('hidden');
-      document.getElementById('d
+      document.getElementById('authContainer').style.display = 'none';
+      document.getElementById('dashboardContainer').style.display = 'block';
+      refreshDashboard();
+    } else {
+      alert("Invalid password! Correct password is: 280592");
+    }
+  }
+
+  function applyFilter(mode) {
+    activeFilter = mode;
+    document.getElementById('fToday').classList.toggle('active', mode === 'today');
+    document.getElementById('fTomorrow').classList.toggle('active', mode === 'tomorrow');
+    document.
+function applyFilter(mode) {
+    activeFilter = mode;
+    document.getElementById('fToday').classList.toggle('active', mode === 'today');
+    document.getElementById('fTomorrow').classList.toggle('active', mode === 'tomorrow');
+    document.getElementById('fAll').classList.toggle('active', mode === 'all');
+    refreshDashboard();
+  }
+
+  function refreshDashboard() {
+    const all = getBookings();
+    const todayStr = new Date().toISOString().split('T')[0];
+
+    const tmrw = new Date();
+    tmrw.setDate(new Date().getDate() + 1);
+    const tmrwStr = tmrw.toISOString().split('T')[0];
+
+    document.getElementById('todayCount').innerText = all.filter(x => x.date === todayStr).length;
+    document.getElementById('tmrwCount').innerText = all.filter(x => x.date === tmrwStr).length;
+    document.getElementById('totalCount').innerText = all.length;
+
+    let displayList = [];
+    if (activeFilter === 'today') {
+      displayList = all.filter(x => x.date === todayStr);
+    } else if (activeFilter === 'tomorrow') {
+      displayList = all.filter(x => x.date === tmrwStr);
+    } else if (activeFilter === 'custom') {
+      const custom = document.getElementById('customFilterDate').value;
+      displayList = all.filter(x => x.date === custom);
+    } else {
+      displayList = [...all];
+    }
+
+    displayList.sort((a, b) => a.date.localeCompare(b.date) || a.slotMinute - b.slotMinute);
+
+    const tbody = document.getElementById('appointmentTableBody');
+    if (displayList.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:18px; color:#94a3b8;">No scheduled appointments found.</td></tr>`;
+      return;
+    }
+
+    tbody.innerHTML = displayList.map(item => {
+      const isApproved = item.status === 'Approved';
+      return `
+        <tr>
+          <td><strong>${item.date}</strong><br><span style="color:#0f766e; font-weight:600;">${item.timeStr}</span></td>
+          <td><strong>${item.name}</strong><br><span style="color:#64748b;">${item.phone}</span></td>
+          <td><span class="badge badge-primary">${item.scan}</span><br><small style="color:#64748b;">Dr: ${item.doctor || 'Self'}</small></td>
+          <td>
+            <span class="badge ${isApproved ? 'badge-approved' : 'badge-pending'}">
+              ${isApproved ? '✓ Approved' : '⏳ Pending'}
+            </span>
+          </td>
+          <td>
+            <button onclick="approveAndSendWhatsApp(${item.id})" class="action-btn btn-approve">
+              ${isApproved ? 'Resend WA' : 'Approve & WhatsApp'}
+            </button>
+            <button onclick="cancelBooking(${item.id})" class="action-btn btn-del">Cancel</button>
+          </td>
+        </tr>
+      `;
+    }).join('');
+  }
+
+  function approveAndSendWhatsApp(id) {
+    const registry = getBookings();
+    const item = registry.find(b => b.id === id);
+    if (!item) return;
+
+    item.status = 'Approved';
+    setBookings(registry);
+    refreshDashboard();
+
+    const waText = encodeURIComponent(
+      `*Dr. Natasha Advanced Sonography Centre*\n` +
+      `Appointment Confirmation\n` +
+      `----------------------------------------\n` +
+      `Dear *${item.name}*,\n` +
+      `Your appointment has been approved and confirmed:\n\n` +
+      `🔬 *Investigation:* ${item.scan}\n` +
+      `📅 *Date:* ${item.date}\n` +
+      `⏰ *Time:* ${item.timeStr}\n` +
+      `👨‍⚕️ *Ref. Doctor:* ${item.doctor || 'Self'}\n\n` +
+      `📍 *Location:* Dr. Natasha Advanced Sonography Centre\n` +
+      `⚠️ *Note:* Please arrive 10 minutes prior to your scheduled time.\n` +
+      `Thank you.`
+    );
+
+    window.open(`https://wa.me/91${item.phone}?text=${waText}`, '_blank');
+  }
+
+  function cancelBooking(id) {
+    if (confirm("Are you sure you want to cancel this appointment record?")) {
+      const filtered = getBookings().filter(b => b.id !== id);
+      setBookings(filtered);
+      refreshDashboard();
+      loadSlots();
+    }
+    }
+    function exportCSV() {
+    const list = getBookings();
+    if (list.length === 0) {
+      alert("No data available to export.");
+      return;
+    }
+    let csv = "Patient Name,Contact,Date,Time,Investigation,Doctor,Status\n";
+    list.forEach(i => {
+      csv += `"${i.name}","${i.phone}","${i.date}","${i.timeStr}","${i.scan}","${i.doctor}","${i.status || 'Pending'}"\n`;
+    });
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `Appointments_Report_${new Date().toISOString().slice(0,10)}.csv`;
+    a.click();
+  }
+</script>
+</body>
+</html>
